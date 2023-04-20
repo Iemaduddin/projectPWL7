@@ -21,8 +21,9 @@ Route::resource('mahasiswa', MahasiswaController::class);
     public function index()
     {
         //fungsi eloquent menampilkan data menggunakan pagination
-        $mahasiswas = Mahasiswa::paginate(5); // Mengambil 5 isi tabel
+        $mahasiswas = Mahasiswa::all(); // Mengambil 5 isi tabel
         return view('mahasiswas.index', compact('mahasiswas'));
+        // return view('mahasiswas.index', compact('mahasiswas'));
     }
 
     // Praktikum 7
