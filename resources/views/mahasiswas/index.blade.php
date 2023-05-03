@@ -13,11 +13,8 @@
                 
             </div> --}}
             <form class="form-left my-4" method="get" action="{{ route('search') }}">
-                <div class="form-group w-80 mb-3">
-                    <input type="text" name="search" class="form-control w-50 d-inline" id="search"
-                        placeholder="Search">
-                    <button type="submit" class="btn btn-primary mb-1">Cari</button>
-                    <a class="btn btn-success right" href="{{ route('mahasiswas.create') }}" style="margin-left:9cm"> Input
+                <div class="form-group w-100 mb-3">
+                    <a class="btn btn-success" href="{{ route('mahasiswas.create') }}"> Input
                         Mahasiswa</a>
                 </div>
             </form>
@@ -34,17 +31,17 @@
         });
     </script>
     <table id="table" class="table table-bordered">
-        <thead>
+        <thead class="table-dark">
 
             <tr>
                 <th>Nim</th>
-                <th>Nama</th>
-                <th>TTL</th>
+                <th style="width:15%">Nama</th>
+                <th style="width:15%">TTL</th>
                 <th>Kelas</th>
-                <th>Jurusan</th>
+                <th style="width:20%">Jurusan</th>
                 <th>No_Handphone</th>
                 <th>Email</th>
-                <th width="225px">Action</th>
+                <th style="width:40%">Action</th>
             </tr>
         </thead>
         <tbody>
@@ -65,6 +62,7 @@
                             @csrf
                             @method('DELETE')
                             <button type="submit" class="btn btn-danger">Delete</button>
+                            <a class="btn btn-warning" href="{{ route('khs', $Mahasiswa->Nim) }}">Nilai</a>
                         </form>
                     </td>
                 </tr>
