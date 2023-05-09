@@ -24,14 +24,6 @@ class Mahasiswa_Matakuliah extends Model
         'nilai',
     ];
 
-    // public function mahasiswas()
-    // {
-    //     return $this->belongsToMany(Mahasiswa::class);
-    // }
-    // public function matakuliah()
-    // {
-    //     return $this->belongsToMany(MataKuliah::class);
-    // }
     public function matakuliah()
     {
         return $this->belongsTo(Matakuliah::class);

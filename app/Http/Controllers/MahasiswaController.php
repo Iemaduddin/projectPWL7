@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Kelas;
 use App\Models\Matakuliah;
 use App\Models\Mahasiswa_Matakuliah;
+use Illuminate\Support\Facades\Storage;
 
 class MahasiswaController extends Controller
 {
@@ -43,6 +44,9 @@ Route::resource('mahasiswa', MahasiswaController::class);
     }
     public function store(Request $request)
     {
+        if ($request->file('image')) {
+            $image_name = $request->file('image')->store('images', 'public');
+        }
         //melakukan validasi data
         $request->validate([
             'Nim' => 'required',
@@ -58,6 +62,7 @@ Route::resource('mahasiswa', MahasiswaController::class);
         $mahasiswas = new Mahasiswa;
         $mahasiswas->Nim = $request->get('Nim');
         $mahasiswas->Nama = $request->get('Nama');
+        $mahasiswas->featured_image = $image_name; //menambahkan foto
         $mahasiswas->Tanggal_Lahir = $request->get('Tanggal_Lahir');
         $mahasiswas->Jurusan = $request->get('Jurusan');
         $mahasiswas->No_Handphone = $request->get('No_Handphone');
@@ -110,12 +115,21 @@ Route::resource('mahasiswa', MahasiswaController::class);
         ]);
         //fungsi eloquent untuk mengupdate data inputan kita
         $mahasiswas = Mahasiswa::find($Nim);
+
+
+        if ($mahasiswas->featured_image && file_exists(storage_path('app/public/' . $mahasiswas->featured_image))) {
+            Storage::delete('public/' . $mahasiswas->featured_image);
+        }
+        $image_name = $request->file('image')->store('images', 'public');
+
         $mahasiswas->Nim = $request->get('Nim');
         $mahasiswas->Nama = $request->get('Nama');
+        $mahasiswas->featured_image = $image_name;
         $mahasiswas->Tanggal_Lahir = $request->get('Tanggal_Lahir');
         $mahasiswas->Jurusan = $request->get('Jurusan');
         $mahasiswas->No_Handphone = $request->get('No_Handphone');
         $mahasiswas->Email = $request->get('Email');
+
 
         $kelas = new Kelas;
         $kelas->id = $request->get('Kelas');
