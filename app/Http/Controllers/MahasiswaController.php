@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Mahasiswa;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use App\Models\Kelas;
 use App\Models\Matakuliah;
@@ -179,5 +180,15 @@ Route::resource('mahasiswa', MahasiswaController::class);
         //$MataKuliah = $Mahasiswa->MataKuliah()->get();
         $Mahasiswa_Matakuliah = Mahasiswa_MataKuliah::where('mahasiswa_id', '=', $Nim)->get();
         return view('mahasiswas.khs', ['Mahasiswa' => $Mahasiswa], ['Mahasiswa_Matakuliah' => $Mahasiswa_Matakuliah], ['Matakuliah' => $Matakuliah], compact('Mahasiswa_Matakuliah'));
+    }
+
+    public function print_pdf($Nim)
+    {
+        $Mahasiswa = Mahasiswa::find($Nim);
+        $Matakuliah = Matakuliah::all();
+        $Mahasiswa_Matakuliah = Mahasiswa_Matakuliah::where('mahasiswa_id', '=', $Nim)->get();
+        $pdf = PDF::loadView('mahasiswas.khs_pdf', compact('Mahasiswa', 'Mahasiswa_Matakuliah'));
+        return $pdf->stream();
+        // return $pdf->download('KHS-' . $Mahasiswa->Nama . '.pdf');
     }
 };
